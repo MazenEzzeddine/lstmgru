@@ -1,0 +1,22 @@
+docker run -p 8501:8501 -v  C:\\Users\\m.ezzeddine\\PycharmProjects\\lstmgru\\mdl\\1:/models/mdl/1 -e MODEL_NAME=mdl -t tensorflow/serving&
+
+
+
+
+
+
+Xtest, Ytest = dataSetX[(int)(0.8 * batchSize):, :], dataSetY[(int)(0.8 * batchSize):, :]
+print("===========================================")
+print(np.shape(Xtest[0,:,0]))
+print(Xtest[0,:,0])
+print(Ytest[0,:,0])
+ar =  Xtest[0,:,0]
+print(ar)
+
+data = json.dumps({"instances": Xtest.tolist()})
+
+headers = {"content-type": "application/json"}
+json_response = requests.post('http://localhost:8501/v1/models/mdl:predict', data=data, headers=headers)
+predictions = json.loads(json_response.text)['predictions']
+print(predictions)
+print(np.shape(predictions))
